@@ -3,6 +3,7 @@ const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
+const Room = require("./models/Room");
 require("dotenv").config();
 
 const Message = require("./models/Message");
@@ -22,47 +23,95 @@ const io = new Server(server, {
 const rooms = {};
 
 io.on("connection", (socket) => {
+  socket.on("canvas-clear", (room) => {
+  socket.to(room).emit("canvas-clear");
+});
+  socket.on(
+  "create-room",
+  async ({ roomId, password }, callback) => {
+    const existing = await Room.findOne({
+      roomId,
+    });
+
+    if (existing) {
+      callback({
+        success: false,
+        message: "Room already exists",
+      });
+
+      return;
+    }
+
+    await Room.create({
+      roomId,
+      password,
+    });
+
+    callback({
+      success: true,
+    });
+  }
+);
+  socket.on("canvas-update", ({ room, data }) => {
+  console.log("Canvas received:", room);
+
+  socket.to(room).emit("canvas-update", data);
+
+  console.log("Canvas broadcasted");
+});
+  socket.on("canvas-clear", (room) => {
+  socket.to(room).emit("canvas-clear");
+});
   console.log("User connected");
 
   // JOIN ROOM
-  socket.on("join-room", async ({ room, username }) => {
-    socket.room = room;
-    socket.username = username;
-
-    socket.join(room);
-
-    if (!rooms[room]) {
-      rooms[room] = [];
-    }
-
-    if (!rooms[room].includes(username)) {
-      rooms[room].push(username);
-    }
-
-    io.to(room).emit("users-list", rooms[room]);
-
+socket.on(
+  "join-room",
+  async ({ room, username }) => {
     try {
-      const oldMessages = await Message.find({ room })
-        .sort({ createdAt: 1 });
+      socket.room = room;
+      socket.username = username;
+
+      socket.join(room);
+
+      // Online users
+      if (!rooms[room]) {
+        rooms[room] = [];
+      }
+
+      if (!rooms[room].includes(username)) {
+        rooms[room].push(username);
+      }
+
+      io.to(room).emit("users-list", rooms[room]);
+
+      // Old messages
+      const oldMessages = await Message.find({
+        room,
+      }).sort({ createdAt: 1 });
 
       socket.emit("old-messages", oldMessages);
-      let note = await Note.findOne({ room });
 
-if (!note) {
-  note = await Note.create({
-    room,
-    content: "",
-  });
-}
+      // Load notes
+      let note = await Note.findOne({
+        room,
+      });
 
-socket.emit("load-notes", note.content);
+      if (!note) {
+        note = await Note.create({
+          room,
+          content: "",
+        });
+      }
+
+      socket.emit("load-notes", note.content);
+
+      console.log(`${username} joined ${room}`);
     } catch (err) {
-      console.log("Error loading messages:", err);
+      console.log("Join room error:", err);
     }
-
-    console.log(`${username} joined ${room}`);
-  });
-
+  }
+);
   // NOTES
   socket.on("notes-change", async ({ room, notes }) => {
   await Note.findOneAndUpdate(
