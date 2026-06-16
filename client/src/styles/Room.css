@@ -96,3 +96,9 @@ button {
   padding: 10px;
   box-sizing: border-box;
 }
+.whiteboard-panel {
+  margin-top: 30px;
+  border: 1px solid white;
+  border-radius: 12px;
+  padding: 20px;
+}
