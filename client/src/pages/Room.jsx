@@ -40,7 +40,13 @@ function Room() {
   socket.on("old-messages", (oldMessages) => {
   console.log("OLD MESSAGES:", oldMessages);
 
-  setMessages(oldMessages);
+  setMessages((prev) => {
+    if (prev.length > 0) {
+      return [...oldMessages, ...prev];
+    }
+
+    return oldMessages;
+  });
 });
 
   socket.on("load-notes", (savedNotes) => {
