@@ -1,3 +1,4 @@
+console.log("ROOM VERSION TEST 999");
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
@@ -29,14 +30,18 @@ function Room() {
 
   useEffect(() => {
   const handleMessage = (msg) => {
-    setMessages((prev) => [...prev, msg]);
-  };
+  console.log("NEW MESSAGE:", msg);
+
+  setMessages((prev) => [...prev, msg]);
+};
 
   socket.on("chat-message", handleMessage);
 
   socket.on("old-messages", (oldMessages) => {
-    setMessages(oldMessages);
-  });
+  console.log("OLD MESSAGES:", oldMessages);
+
+  setMessages(oldMessages);
+});
 
   socket.on("load-notes", (savedNotes) => {
     setNotes(savedNotes);

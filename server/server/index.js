@@ -102,6 +102,11 @@ io.on("connection", (socket) => {
         }
 
         io.to(room).emit("users-list", rooms[room]);
+        io.to(room).emit("chat-message", {
+  username: "System",
+  message: `${username} joined the room`,
+  createdAt: new Date(),
+});
 
         // Old messages
         const oldMessages = await Message.find({
@@ -173,6 +178,11 @@ io.on("connection", (socket) => {
       );
 
       io.to(room).emit("users-list", rooms[room]);
+      io.to(room).emit("chat-message", {
+  username: "System",
+  message: `${username} left the room`,
+  createdAt: new Date(),
+});
     }
 
     if (username) {
