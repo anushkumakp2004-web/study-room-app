@@ -14,9 +14,10 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://study-room-app-eight.vercel.app",
-    ],
+  "http://localhost:5173",
+  "https://study-room-app-eight.vercel.app",
+  "https://study-room-dsqgvwxby-anushbuilds.vercel.app",
+],
     credentials: true,
   })
 );
@@ -26,9 +27,10 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:5173",
-      "https://study-room-app-eight.vercel.app",
-    ],
+  "http://localhost:5173",
+  "https://study-room-app-eight.vercel.app",
+  "https://study-room-dsqgvwxby-anushbuilds.vercel.app",
+],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -180,10 +182,10 @@ socket.on(
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("MongoDB Connected");
+    console.log("✅ MongoDB Connected");
   })
   .catch((err) => {
-    console.log(err);
+    console.error("❌ MongoDB Error:", err.message);
   });
 
 const PORT = process.env.PORT || 5000;
