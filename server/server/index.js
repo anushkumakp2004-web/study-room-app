@@ -10,13 +10,26 @@ const Message = require("./models/Message");
 const Note = require("./models/Note");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://study-room-app-eight.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://study-room-app-eight.vercel.app",
+    ],
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
@@ -67,7 +80,7 @@ io.on("connection", (socket) => {
   // JOIN ROOM
 socket.on(
   "join-room",
-  async ({ room, username }) => {
+  async ({ room, username }, callback) => {
     try {
       socket.room = room;
       socket.username = username;

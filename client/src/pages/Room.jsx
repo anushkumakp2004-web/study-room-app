@@ -73,17 +73,16 @@ function Room() {
 }, []);
 
 const joinRoom = () => {
-  if (!username.trim() || !room.trim()) {
-    alert("Enter username and room");
-    return;
-  }
+  if (!username.trim() || !room.trim()) return;
 
-  setJoined(true);
+  console.log("Joining room:", room);
 
   socket.emit("join-room", {
     room,
     username,
   });
+
+  setJoined(true);
 };
 
 const sendCanvas = async () => {
