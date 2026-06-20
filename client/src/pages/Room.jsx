@@ -136,7 +136,7 @@ const sendMessage = () => {
   <h3>Room: {room}</h3>
 
 <p className="invite-link">
-  const inviteLink = `${window.location.origin}/room/${room}`;
+  Invite Link: {window.location.origin}/room/{room}
 </p>
 
 <button
@@ -174,7 +174,8 @@ const sendMessage = () => {
   <div className="chat-layout">
 
     <div className="users-panel">
-      <h3>Online Users</h3>
+      <h3>Online Users ({users.length})</h3>
+      <p>Count: {users.length}</p>
 
       {users.map((user, index) => (
         <p key={index}>{user}</p>
