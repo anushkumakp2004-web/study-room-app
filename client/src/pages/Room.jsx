@@ -136,7 +136,7 @@ const sendMessage = () => {
   <h3>Room: {room}</h3>
 
 <p className="invite-link">
-  Invite Link: `${window.location.origin}/room/${room}`
+  const inviteLink = `${window.location.origin}/room/${room}`;
 </p>
 
 <button
