@@ -9,11 +9,13 @@ function CreateRoom() {
   const navigate = useNavigate();
 
   const createRoom = () => {
-    if (!roomId.trim()) return;
+  const randomRoomId = Math.random()
+    .toString(36)
+    .substring(2, 8)
+    .toUpperCase();
 
-    navigate(`/room/${roomId}`);
-  };
-
+  navigate(`/room/${randomRoomId}`);
+};
   return (
     <div>
       <h1>Create Room</h1>
