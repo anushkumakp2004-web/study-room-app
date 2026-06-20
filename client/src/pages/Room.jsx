@@ -9,6 +9,7 @@ const socket = io("https://study-room-app-backend.onrender.com");
 function Room() {
   const [canvasData, setCanvasData] = useState([]);
   const { roomId } = useParams();
+  console.log("ROOM ID:", roomId);
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [joined, setJoined] = useState(false);
@@ -19,6 +20,12 @@ function Room() {
   const [copied, setCopied] = useState(false);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (roomId) {
+    setRoom(roomId);
+  }
+}, [roomId]);
 
   useEffect(() => {
   const handleMessage = (msg) => {
@@ -119,12 +126,7 @@ const sendMessage = () => {
   value={username}
   onChange={(e) => setUsername(e.target.value)}
 />
-          <input
-  type="text"
-  placeholder="Enter Room Code"
-  value={room}
-  onChange={(e) => setRoom(e.target.value)}
-/>
+          
 
 <button onClick={joinRoom}>
   Join Room
