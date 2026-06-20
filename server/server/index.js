@@ -39,6 +39,7 @@ const io = new Server(server, {
 const rooms = {};
 
 io.on("connection", (socket) => {
+  console.log("SOCKET CONNECTED:", socket.id);
   socket.on("canvas-clear", (room) => {
   socket.to(room).emit("canvas-clear");
 });
@@ -81,53 +82,54 @@ io.on("connection", (socket) => {
   console.log("User connected");
 
   // JOIN ROOM
-socket.on(
-  "join-room",
-  async ({ room, username }, callback) => {
-    try {
-      socket.room = room;
-      socket.username = username;
+  socket.on(
+    "join-room",
+    async ({ room, username }, callback) => {
+      console.log("JOIN EVENT RECEIVED:", room, username);
+      try {
+        socket.room = room;
+        socket.username = username;
 
-      socket.join(room);
+        socket.join(room);
 
-      // Online users
-      if (!rooms[room]) {
-        rooms[room] = [];
-      }
+        // Online users
+        if (!rooms[room]) {
+          rooms[room] = [];
+        }
 
-      if (!rooms[room].includes(username)) {
-        rooms[room].push(username);
-      }
+        if (!rooms[room].includes(username)) {
+          rooms[room].push(username);
+        }
 
-      io.to(room).emit("users-list", rooms[room]);
+        io.to(room).emit("users-list", rooms[room]);
 
-      // Old messages
-      const oldMessages = await Message.find({
-        room,
-      }).sort({ createdAt: 1 });
-
-      socket.emit("old-messages", oldMessages);
-
-      // Load notes
-      let note = await Note.findOne({
-        room,
-      });
-
-      if (!note) {
-        note = await Note.create({
+        // Old messages
+        const oldMessages = await Message.find({
           room,
-          content: "",
+        }).sort({ createdAt: 1 });
+
+        socket.emit("old-messages", oldMessages);
+
+        // Load notes
+        let note = await Note.findOne({
+          room,
         });
+
+        if (!note) {
+          note = await Note.create({
+            room,
+            content: "",
+          });
+        }
+
+        socket.emit("load-notes", note.content);
+
+        console.log(`${username} joined ${room}`);
+      } catch (err) {
+        console.log("Join room error:", err);
       }
-
-      socket.emit("load-notes", note.content);
-
-      console.log(`${username} joined ${room}`);
-    } catch (err) {
-      console.log("Join room error:", err);
     }
-  }
-);
+  );
   // NOTES
   socket.on("notes-change", async ({ room, notes }) => {
   await Note.findOneAndUpdate(
