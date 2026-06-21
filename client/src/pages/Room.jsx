@@ -4,10 +4,12 @@ import io from "socket.io-client";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import "../styles/Room.css";
 
-const socket = io("https://study-room-app-backend.onrender.com");function Room() {
+const socket = io(
+  "https://study-room-backend.onrender.com"
+);
+  function Room() {
   const [canvasData, setCanvasData] = useState([]);
   const { roomId } = useParams();
-  console.log("ROOM ID:", roomId);
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [joined, setJoined] = useState(false);
@@ -15,7 +17,9 @@ const socket = io("https://study-room-app-backend.onrender.com");function Room()
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const [owner, setOwner] = useState("");
   const [copied, setCopied] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -54,12 +58,29 @@ const socket = io("https://study-room-app-backend.onrender.com");function Room()
   });
 
   socket.on("users-list", (usersList) => {
-    setUsers(usersList);
-  });
+  setUsers(usersList);
+});
+
+ socket.on("room-owner", (roomOwner) => {
+  setOwner(roomOwner || "");
+});
 
   socket.on("notes-change", (updatedNotes) => {
     setNotes(updatedNotes);
   });
+
+  socket.on("chat-cleared", () => {
+  setMessages([]);
+});
+socket.on("room-deleted", () => {
+  alert("Room deleted by owner");
+  window.location.href = "/";
+});
+socket.on("kicked", () => {
+  alert("You were removed from the room");
+
+  window.location.href = "/";
+});
 
   socket.on("canvas-update", async (data) => {
     console.log(JSON.stringify(data, null, 2));
@@ -81,28 +102,46 @@ const socket = io("https://study-room-app-backend.onrender.com");function Room()
 });
   return () => {
   socket.off("chat-message", handleMessage);
+  socket.off("chat-cleared");
   socket.off("old-messages");
   socket.off("load-notes");
   socket.off("users-list");
+  socket.off("room-owner");
   socket.off("notes-change");
   socket.off("canvas-update");
   socket.off("canvas-clear");
+  socket.off("room-deleted");
+  socket.off("kicked");
 };
 }, []);
-
+useEffect(() => {
+  console.log("USERNAME:", username);
+  console.log("OWNER:", owner);
+}, [username, owner]);
 const joinRoom = () => {
   if (!username.trim() || !room.trim()) return;
 
-  console.log("Joining room:", room);
+  const enteredPassword = prompt(
+  "Enter room password (leave blank if none)"
+);
 
-  socket.emit("join-room", {
+socket.emit(
+  "join-room",
+  {
     room,
     username,
-  });
+    password: enteredPassword || "",
+  },
+    (response) => {
+  if (response?.success === false) {
+  alert(response.message);
+  return;
+}
 
-  setJoined(true);
+setJoined(true);
+}
+  );
 };
-
 const sendCanvas = async () => {
   if (!canvasRef.current) return;
 
@@ -126,8 +165,16 @@ const sendMessage = () => {
   setMessage("");
 };
  return (
-  <div className="room-container">
-      <h1>Study Room</h1>
+<div
+  className={`room-container ${
+    darkMode ? "dark" : ""
+  }`}
+>      <h1>Study Room</h1>
+      <button
+  onClick={() => setDarkMode(!darkMode)}
+>
+  {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
+</button>
 
       {!joined ? (
         <div className="chat-layout">
@@ -147,7 +194,46 @@ const sendMessage = () => {
       <>
       
   <h3>Room: {room}</h3>
+  {username === owner && (
+  <button
+    onClick={() => {
+      socket.emit("clear-chat", room);
+    }}
+  >
+    Clear Chat
+  </button>
+)}
+{username === owner && (
+  <button
+    onClick={() => {
+      const confirmDelete = window.confirm(
+        "Delete this room permanently?"
+      );
 
+      if (!confirmDelete) return;
+
+      socket.emit("delete-room", room);
+    }}
+  >
+    Delete Room
+  </button>
+)}
+<p>
+  Owner: {owner} 👑
+</p><button
+  onClick={() => {
+    setJoined(false);
+setUsers([]);
+setMessages([]);
+setNotes("");
+setOwner("");
+setRoom("");
+
+window.location.href = "/";
+  }}
+>
+  Leave Room
+</button>
 <p className="invite-link">
   Invite Link: {window.location.origin}/room/{room}
 </p>
@@ -191,8 +277,38 @@ const sendMessage = () => {
       <p>Count: {users.length}</p>
 
       {users.map((user, index) => (
-        <p key={index}>{user}</p>
-      ))}
+  <div
+    key={index}
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "8px",
+    }}
+  >
+    <span>
+      {user}
+      {user === owner ? " 👑" : ""}
+    </span>
+
+    {owner &&
+      username &&
+      username.trim().toLowerCase() ===
+        owner.trim().toLowerCase() &&
+      user !== owner && (
+        <button
+          onClick={() => {
+            socket.emit("kick-user", {
+              username: user,
+              room,
+            });
+          }}
+        >
+          Kick
+        </button>
+      )}
+  </div>
+))}
     </div>
 
     <div className="chat-panel">
@@ -288,5 +404,4 @@ const sendMessage = () => {
     </div>
   );
 }
-
 export default Room;
