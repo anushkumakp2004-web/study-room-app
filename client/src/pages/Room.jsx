@@ -1,4 +1,3 @@
-console.log("ROOM VERSION TEST 999");
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
@@ -30,15 +29,18 @@ function Room() {
 
   useEffect(() => {
   const handleMessage = (msg) => {
-  console.log("NEW MESSAGE:", msg);
 
-  setMessages((prev) => [...prev, msg]);
+  setMessages((prev) => {
+    const updated = [...prev, msg];
+
+
+    return updated;
+  });
 };
 
   socket.on("chat-message", handleMessage);
 
   socket.on("old-messages", (oldMessages) => {
-  console.log("OLD MESSAGES:", oldMessages);
 
   setMessages((prev) => {
     if (prev.length > 0) {
@@ -197,29 +199,49 @@ const sendMessage = () => {
 
     <div className="chat-panel">
       <h3>Messages</h3>
+      <h4>Total Messages: {messages.length}</h4>
+     {messages.map((msg, index) => {
+  if (msg.username === "System") {
+    return (
+      <div
+        key={index}
+        style={{
+          textAlign: "center",
+          margin: "10px 0",
+          opacity: 0.7,
+        }}
+      >
+        <small>{msg.message}</small>
+      </div>
+    );
+  }
 
-      {messages.map((msg, index) => (
-  <div
-    className={
-      msg.username === username
-        ? "message-bubble my-message"
-        : "message-bubble other-message"
-    }
-    key={index}
-  >
-    <div className="message-header">
-  <strong>{msg.username}</strong>
+  return (
+    <div
+      className={
+        msg.username === username
+          ? "message-bubble my-message"
+          : "message-bubble other-message"
+      }
+      key={index}
+    >
+      <div className="message-header">
+        <strong>{msg.username}</strong>
 
-  <small>
-    {new Date(msg.createdAt).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}
-  </small>
-</div>
-    <p>{msg.message}</p>
-  </div>
-))}
+        <small>
+          {msg.createdAt
+            ? new Date(msg.createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : ""}
+        </small>
+      </div>
+
+      <p>{msg.message}</p>
+    </div>
+  );
+})}
 <div ref={messagesEndRef}></div>
     </div>
 <div className="notes-panel">
