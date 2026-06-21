@@ -17,7 +17,7 @@ function CreateRoom() {
     .toString(36)
     .substring(2, 8)
     .toUpperCase();
-
+const finalRoomId = roomId.trim() || randomRoomId;
   socket.emit(
   "create-room",
   {
@@ -52,8 +52,6 @@ function CreateRoom() {
       value={username}
       onChange={(e) => setUsername(e.target.value)}
     />
-    const finalRoomId =
-  roomId.trim() || randomRoomId;
 
     <input
       type="password"
