@@ -5,6 +5,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 const Room = require("./models/Room");
+const userSockets = {};
 require("dotenv").config();
 
 const Message = require("./models/Message");
@@ -40,13 +41,28 @@ const io = new Server(server, {
 const rooms = {};
 
 io.on("connection", (socket) => {
+  socket.on("kick-user", ({ username, room }) => {
+  const targetSocketId = userSockets[username];
+
+  if (!targetSocketId) return;
+
+  io.to(targetSocketId).emit("kicked");
+
+  const targetSocket = io.sockets.sockets.get(
+    targetSocketId
+  );
+
+  if (targetSocket) {
+    targetSocket.leave(room);
+  }
+});
   console.log("SOCKET CONNECTED:", socket.id);
   socket.on("canvas-clear", (room) => {
   socket.to(room).emit("canvas-clear");
 });
   socket.on(
   "create-room",
-  async ({ roomId, password }, callback) => {
+  async ({ roomId, password, owner }, callback) => {
     const existing = await Room.findOne({
       roomId,
     });
@@ -59,11 +75,12 @@ io.on("connection", (socket) => {
 
       return;
     }
-
+    console.log("CREATING ROOM:", roomId, password);
     await Room.create({
-      roomId,
-      password,
-    });
+  roomId,
+  password,
+  owner,
+});
 
     callback({
       success: true,
@@ -71,7 +88,6 @@ io.on("connection", (socket) => {
   }
 );
   socket.on("canvas-update", async ({ room, data }) => {
-  console.log("Canvas received:", room);
 
   await Whiteboard.findOneAndUpdate(
     { room },
@@ -88,13 +104,29 @@ io.on("connection", (socket) => {
 
   // JOIN ROOM
   socket.on(
-    "join-room",
-    async ({ room, username }, callback) => {
+  "join-room",
+  async ({ room, username, password }, callback) => {
       console.log("JOIN EVENT RECEIVED:", room, username);
       try {
         socket.room = room;
         socket.username = username;
+        userSockets[username] = socket.id;
+        console.log("CHECKING ROOM:", room);
+        const roomData = await Room.findOne({
+  roomId: room,
+});
+  console.log("ROOM DATA:", roomData);
+socket.emit("room-owner", roomData?.owner || "");
+if (roomData && roomData.password) {
+  if (password !== roomData.password) {
+    callback({
+      success: false,
+      message: "Wrong password",
+    });
 
+    return;
+  }
+}
         socket.join(room);
 
         // Online users
@@ -106,7 +138,9 @@ io.on("connection", (socket) => {
           rooms[room].push(username);
         }
 
-        io.to(room).emit("users-list", rooms[room]);
+        console.log("SENDING USERS:", rooms[room]);
+
+io.to(room).emit("users-list", rooms[room]);
         io.to(room).emit("chat-message", {
   username: "System",
   message: `${username} joined the room`,
@@ -140,7 +174,11 @@ io.on("connection", (socket) => {
 if (whiteboard) {
   socket.emit("canvas-update", whiteboard.data);
 }
+       console.log("EMITTING OWNER:", roomData?.owner);
         console.log(`${username} joined ${room}`);
+        callback({
+  success: true,
+});
       } catch (err) {
         console.log("Join room error:", err);
       }
@@ -155,6 +193,26 @@ if (whiteboard) {
   );
 
   socket.to(room).emit("notes-change", notes);
+});
+socket.on("clear-chat", async (room) => {
+  await Message.deleteMany({ room });
+
+  io.to(room).emit("chat-cleared");
+});
+socket.on("delete-room", async (room) => {
+  console.log("DELETE ROOM EVENT:", room);
+
+  const roomResult = await Room.deleteOne({
+    roomId: room,
+  });
+
+  console.log("ROOM DELETE RESULT:", roomResult);
+
+  await Message.deleteMany({ room });
+  await Note.deleteMany({ room });
+  await Whiteboard.deleteMany({ room });
+
+  io.to(room).emit("room-deleted");
 });
 
   // CHAT
@@ -197,6 +255,7 @@ if (whiteboard) {
     }
 
     if (username) {
+  delete userSockets[username];
   console.log(`${username} disconnected`);
 }
   });
