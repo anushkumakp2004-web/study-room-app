@@ -9,6 +9,7 @@ require("dotenv").config();
 
 const Message = require("./models/Message");
 const Note = require("./models/Note");
+const Whiteboard = require("./models/Whiteboard");
 
 const app = express();
 app.use(
@@ -69,12 +70,16 @@ io.on("connection", (socket) => {
     });
   }
 );
-  socket.on("canvas-update", ({ room, data }) => {
+  socket.on("canvas-update", async ({ room, data }) => {
   console.log("Canvas received:", room);
 
-  socket.to(room).emit("canvas-update", data);
+  await Whiteboard.findOneAndUpdate(
+    { room },
+    { data },
+    { upsert: true }
+  );
 
-  console.log("Canvas broadcasted");
+  socket.to(room).emit("canvas-update", data);
 });
   socket.on("canvas-clear", (room) => {
   socket.to(room).emit("canvas-clear");
@@ -128,7 +133,13 @@ io.on("connection", (socket) => {
         }
 
         socket.emit("load-notes", note.content);
+        let whiteboard = await Whiteboard.findOne({
+  room,
+});
 
+if (whiteboard) {
+  socket.emit("canvas-update", whiteboard.data);
+}
         console.log(`${username} joined ${room}`);
       } catch (err) {
         console.log("Join room error:", err);

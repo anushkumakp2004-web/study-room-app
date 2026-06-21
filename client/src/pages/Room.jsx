@@ -4,8 +4,7 @@ import io from "socket.io-client";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import "../styles/Room.css";
 
-const socket = io("https://study-room-app-backend.onrender.com");
-
+const socket = io("http://localhost:5000");
 function Room() {
   const [canvasData, setCanvasData] = useState([]);
   const { roomId } = useParams();
