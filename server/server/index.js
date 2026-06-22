@@ -63,13 +63,11 @@ io.on("connection", (socket) => {
   socket.on(
   "create-room",
   async ({ roomId, password, owner }, callback) => {
-
     console.log("CREATE ROOM EVENT RECEIVED");
 
     callback({
       success: true,
     });
-
   }
 );
   socket.on("canvas-update", async ({ room, data }) => {
