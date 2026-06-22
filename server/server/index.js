@@ -63,6 +63,7 @@ io.on("connection", (socket) => {
   socket.on(
   "create-room",
   async ({ roomId, password, owner }, callback) => {
+    console.log("CREATE ROOM EVENT RECEIVED");
     const existing = await Room.findOne({
       roomId,
     });
