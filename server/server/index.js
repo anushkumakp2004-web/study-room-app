@@ -42,7 +42,8 @@ const io = new Server(server, {
 const rooms = {};
 
 io.on("connection", (socket) => {
-  console.log("CLIENT CONNECTED:", socket.id);
+  throw new Error("CONNECTION TEST CRASH");
+    console.log("CLIENT CONNECTED:", socket.id);
 
 socket.onAny((event) => {
   console.log("EVENT RECEIVED:", event);
