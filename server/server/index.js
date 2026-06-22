@@ -63,29 +63,13 @@ io.on("connection", (socket) => {
   socket.on(
   "create-room",
   async ({ roomId, password, owner }, callback) => {
+
     console.log("CREATE ROOM EVENT RECEIVED");
-    const existing = await Room.findOne({
-      roomId,
-    });
-
-    if (existing) {
-      callback({
-        success: false,
-        message: "Room already exists",
-      });
-
-      return;
-    }
-    console.log("CREATING ROOM:", roomId, password);
-    await Room.create({
-  roomId,
-  password,
-  owner,
-});
 
     callback({
       success: true,
     });
+
   }
 );
   socket.on("canvas-update", async ({ room, data }) => {
