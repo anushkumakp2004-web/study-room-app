@@ -17,6 +17,9 @@ socket.on("connect", () => {
 socket.on("connect_error", (err) => {
   console.log("SOCKET ERROR:", err.message);
 });
+socket.on("server-test", (msg) => {
+  console.log("SERVER TEST:", msg);
+});
 function CreateRoom() {
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");

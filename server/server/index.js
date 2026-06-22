@@ -42,12 +42,16 @@ const io = new Server(server, {
 const rooms = {};
 
 io.on("connection", (socket) => {
-  throw new Error("CONNECTION TEST CRASH");
-    console.log("CLIENT CONNECTED:", socket.id);
+  console.log("🔥 CLIENT CONNECTED:", socket.id);
 
-socket.onAny((event) => {
-  console.log("EVENT RECEIVED:", event);
-});
+  socket.emit(
+    "server-test",
+    "hello from backend"
+  );
+
+  socket.onAny((event) => {
+    console.log("EVENT RECEIVED:", event);
+  });
   socket.on("kick-user", ({ username, room }) => {
   const targetSocketId = userSockets[username];
 
