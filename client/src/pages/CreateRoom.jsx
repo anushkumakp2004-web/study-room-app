@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
 const socket = io(
-  "https://study-room-app-backend.onrender.com"
+  "https://study-room-app-backend.onrender.com",
+  {
+    transports: ["websocket"],
+  }
 );
 
 socket.on("connect", () => {
