@@ -9,10 +9,6 @@ const socket = io(
 socket.on("connect", () => {
   console.log("SOCKET CONNECTED:", socket.id);
 });
-
-socket.on("connect_error", (err) => {
-  console.log("SOCKET ERROR:", err.message);
-});
 function CreateRoom() {
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
@@ -26,6 +22,8 @@ function CreateRoom() {
     .substring(2, 8)
     .toUpperCase();
 const finalRoomId = roomId.trim() || randomRoomId;
+console.log("EMITTING CREATE ROOM");
+console.log("CONNECTED?", socket.connected);
   socket.emit(
   "create-room",
   {
