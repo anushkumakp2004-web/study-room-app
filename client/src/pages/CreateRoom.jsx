@@ -54,8 +54,12 @@ console.log("CONNECTED?", socket.connected);
       console.log("CREATE RESPONSE:", response);
 
       if (response.success) {
-      navigate(`/room/${finalRoomId}`);
-      }
+  navigate(`/room/${finalRoomId}`, {
+    state: {
+      username,
+    },
+  });
+}
     }
   );
 };

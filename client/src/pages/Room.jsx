@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import io from "socket.io-client";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import "../styles/Room.css";
@@ -10,7 +10,10 @@ const socket = io(
   function Room() {
   const [canvasData, setCanvasData] = useState([]);
   const { roomId } = useParams();
-  const [username, setUsername] = useState("");
+  const location = useLocation();
+const [username, setUsername] = useState(
+  location.state?.username || ""
+);
   const [room, setRoom] = useState("");
   const [joined, setJoined] = useState(false);
   const [notes, setNotes] = useState("");
