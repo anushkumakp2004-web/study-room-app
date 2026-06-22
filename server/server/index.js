@@ -20,6 +20,7 @@ app.use(
   "http://localhost:5173",
   "https://study-room-app-eight.vercel.app",
   "https://study-room-dsqgvwxby-anushbuilds.vercel.app",
+  "https://study-room-9lgg9eb7i-anushbuilds.vercel.app",
 ],
     credentials: true,
   })
@@ -33,6 +34,7 @@ const io = new Server(server, {
   "http://localhost:5173",
   "https://study-room-app-eight.vercel.app",
   "https://study-room-dsqgvwxby-anushbuilds.vercel.app",
+  "https://study-room-9lgg9eb7i-anushbuilds.vercel.app",
 ],
     methods: ["GET", "POST"],
     credentials: true,
