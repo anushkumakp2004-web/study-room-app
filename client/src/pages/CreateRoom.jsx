@@ -8,6 +8,11 @@ const socket = io(
 
 socket.on("connect", () => {
   console.log("SOCKET CONNECTED:", socket.id);
+  console.log("SOCKET URI:", socket.io.uri);
+});
+
+socket.on("connect_error", (err) => {
+  console.log("SOCKET ERROR:", err.message);
 });
 function CreateRoom() {
   const [roomId, setRoomId] = useState("");
