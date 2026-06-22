@@ -259,7 +259,10 @@ mongoose
   });
 
 const PORT = process.env.PORT || 5000;
-
+app.get("/test", (req, res) => {
+  console.log("TEST ROUTE HIT");
+  res.send("BACKEND WORKING");
+});
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
