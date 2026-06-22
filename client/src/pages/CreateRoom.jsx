@@ -5,6 +5,14 @@ import io from "socket.io-client";
 const socket = io(
   "https://study-room-backend.onrender.com"
 );
+
+socket.on("connect", () => {
+  console.log("SOCKET CONNECTED:", socket.id);
+});
+
+socket.on("connect_error", (err) => {
+  console.log("SOCKET ERROR:", err.message);
+});
 function CreateRoom() {
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
@@ -21,7 +29,7 @@ const finalRoomId = roomId.trim() || randomRoomId;
   socket.emit(
   "create-room",
   {
-    roomId: randomRoomId,
+    roomId: finalRoomId,
     password,
     owner: username,
   },
@@ -29,7 +37,7 @@ const finalRoomId = roomId.trim() || randomRoomId;
       console.log("CREATE RESPONSE:", response);
 
       if (response.success) {
-        navigate(`/room/${randomRoomId}`);
+      navigate(`/room/${finalRoomId}`);
       }
     }
   );
