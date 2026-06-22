@@ -5,7 +5,7 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 import "../styles/Room.css";
 
 const socket = io(
-  "https://study-room-backend.onrender.com"
+  "https://study-room-app-backend.onrender.com"
 );
   function Room() {
   const [canvasData, setCanvasData] = useState([]);
