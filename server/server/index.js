@@ -1,3 +1,4 @@
+console.log("SERVER BUILD: JUNE22-TEST-123");
 console.log("SERVER VERSION: CORS FIX APPLIED");
 const express = require("express");
 const cors = require("cors");
