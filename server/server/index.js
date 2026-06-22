@@ -41,6 +41,11 @@ const io = new Server(server, {
 const rooms = {};
 
 io.on("connection", (socket) => {
+  console.log("CLIENT CONNECTED:", socket.id);
+
+socket.onAny((event) => {
+  console.log("EVENT RECEIVED:", event);
+});
   socket.on("kick-user", ({ username, room }) => {
   const targetSocketId = userSockets[username];
 
