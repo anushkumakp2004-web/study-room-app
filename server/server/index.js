@@ -269,6 +269,14 @@ app.get("/test", (req, res) => {
   console.log("TEST ROUTE HIT");
   res.send("BACKEND WORKING");
 });
+app.get("/socket-check", (req, res) => {
+  res.json({
+    socketClients: io.engine.clientsCount,
+  });
+});
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+app.get("/build", (req, res) => {
+  res.send("JUNE22-SOCKET-TEST");
 });
