@@ -12,6 +12,14 @@ const socket = io(
 socket.on("connect", () => {
   console.log("SOCKET CONNECTED:", socket.id);
   console.log("SOCKET URI:", socket.io.uri);
+
+  fetch(
+    "https://study-room-app-backend.onrender.com/socket-check"
+  )
+    .then((r) => r.json())
+    .then((d) =>
+      console.log("SOCKET COUNT:", d)
+    );
 });
 
 socket.on("connect_error", (err) => {
