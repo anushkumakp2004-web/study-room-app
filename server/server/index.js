@@ -141,35 +141,46 @@ socket.on(
 socket.on(
   "vote-poll",
   async ({ room, option, username }) => {
+    try {
+      console.log("VOTE RECEIVED");
+      console.log("ROOM:", room);
+      console.log("OPTION:", option);
 
-    console.log("VOTE RECEIVED");
+      const poll = await Poll.findOne({ room });
 
-    const poll = await Poll.findOne({
-      room,
-    });
+      console.log("POLL FOUND:", poll);
 
-    if (!poll) return;
+      if (!poll) return;
 
-    if (poll.voters.includes(username)) {
-      return;
+      if (!poll.voters) {
+        poll.voters = [];
+      }
+
+      if (poll.voters.includes(username)) {
+        return;
+      }
+
+      const currentVotes =
+        poll.votes.get(option) || 0;
+
+      poll.votes.set(
+        option,
+        currentVotes + 1
+      );
+
+      poll.voters.push(username);
+
+      await poll.save();
+
+      console.log("POLL SAVED");
+
+      io.to(room).emit(
+        "poll-updated",
+        poll
+      );
+    } catch (err) {
+      console.error("VOTE ERROR:", err);
     }
-
-    const currentVotes =
-      poll.votes.get(option) || 0;
-
-    poll.votes.set(
-      option,
-      currentVotes + 1
-    );
-
-    poll.voters.push(username);
-
-    await poll.save();
-
-    io.to(room).emit(
-      "poll-updated",
-      poll
-    );
   }
 );
   socket.on("canvas-update", async ({ room, data }) => {
