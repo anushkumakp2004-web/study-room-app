@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 function Home() {
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState("");
+  const [username, setUsername] = useState("");
   return (
     <div
   style={{
@@ -78,6 +79,21 @@ function Home() {
     fontSize: "16px",
   }}
 />
+<input
+  type="text"
+  placeholder="Enter Username"
+  value={username}
+  onChange={(e) => setUsername(e.target.value)}
+  style={{
+    padding: "12px",
+    width: "100%",
+    maxWidth: "300px",
+    borderRadius: "10px",
+    border: "none",
+    marginBottom: "20px",
+    fontSize: "16px",
+  }}
+/>
 
       <div>
       <br />
@@ -85,10 +101,15 @@ function Home() {
 
 <button
   onClick={() => {
-    if (!roomId.trim()) return;
+  if (!roomId.trim()) return;
+  if (!username.trim()) return;
 
-    navigate(`/room/${roomId}`);
-  }}
+  navigate(`/room/${roomId}`, {
+    state: {
+      username,
+    },
+  });
+}}
   style={{
     padding: "14px 28px",
     borderRadius: "12px",

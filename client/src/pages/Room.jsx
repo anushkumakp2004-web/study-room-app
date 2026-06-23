@@ -31,6 +31,31 @@ const [username, setUsername] = useState(
     setRoom(roomId);
   }
 }, [roomId]);
+useEffect(() => {
+  if (
+    location.state?.username &&
+    room &&
+    !joined
+  ) {
+    socket.emit(
+      "join-room",
+      {
+        room,
+        username: location.state.username,
+        password: "",
+      },
+      (response) => {
+  if (!response?.success) {
+    alert(response?.message || "Unable to join room");
+    navigate("/");
+    return;
+  }
+
+  setJoined(true);
+}
+    );
+  }
+}, [room]); 
 
   useEffect(() => {
   const handleMessage = (msg) => {
@@ -136,8 +161,8 @@ socket.emit(
     password: enteredPassword || "",
   },
     (response) => {
-  if (response?.success === false) {
-  alert(response.message);
+  if (!response?.success) {
+  alert(response?.message || "Unable to join room");
   return;
 }
 
@@ -196,7 +221,11 @@ const sendMessage = () => {
       ) : (
       <>
       
-  <h3>Room: {room}</h3>
+<h2>📚 Room {room}</h2>
+
+<p>
+  👥 {users.length} Users Online
+</p>
   {username === owner && (
   <button
     onClick={() => {
@@ -289,10 +318,41 @@ window.location.href = "/";
       marginBottom: "8px",
     }}
   >
-    <span>
-      {user}
-      {user === owner ? " 👑" : ""}
-    </span>
+    <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  }}
+>
+  <div
+    style={{
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      background: [
+  "#667eea",
+  "#f59e0b",
+  "#10b981",
+  "#ef4444",
+  "#8b5cf6",
+  "#06b6d4",
+][user.charCodeAt(0) % 6],
+      color: "white",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontWeight: "bold",
+    }}
+  >
+    {user.charAt(0).toUpperCase()}
+  </div>
+
+  <span>
+    {user}
+    {user === owner ? " 👑" : ""}
+  </span>
+</div>
 
     {owner &&
       username &&
