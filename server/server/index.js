@@ -81,7 +81,6 @@ io.on("connection", (socket) => {
     const existing = await Room.findOne({
       roomId,
     });
-
     if (existing) {
       callback({
         success: false,
@@ -130,7 +129,17 @@ io.on("connection", (socket) => {
         const roomData = await Room.findOne({
   roomId: room,
 });
+
+if (!roomData) {
+  callback({
+    success: false,
+    message: "Room not found",
+  });
+
+  return;
+}
   console.log("ROOM DATA:", roomData);
+  console.log("ROOM OWNER:", roomData?.owner);
 socket.emit("room-owner", roomData?.owner || "");
 if (roomData && roomData.password) {
   if (password !== roomData.password) {
@@ -143,7 +152,9 @@ if (roomData && roomData.password) {
   }
 }
         socket.join(room);
-
+        callback({
+  success: true,
+});
         // Online users
         if (!rooms[room]) {
           rooms[room] = [];
