@@ -102,6 +102,12 @@ setError(response?.message || "Unable to join room");
   setPoll(pollData);
 });
 
+socket.on("poll-updated", (updatedPoll) => {
+  setPoll({
+    ...updatedPoll,
+    votes: { ...updatedPoll.votes },
+  });
+});
   socket.on("notes-change", (updatedNotes) => {
     setNotes(updatedNotes);
   });
@@ -521,10 +527,36 @@ window.location.href = "/";
     </p>
 
     {poll.options.map((option) => (
-      <div key={option}>
-        ○ {option}
-      </div>
-    ))}
+  <button
+    key={option}
+    onClick={() => {
+  console.log("BUTTON CLICKED");
+  console.log("ROOM:", room);
+  console.log("OPTION:", option);
+
+  socket.emit("vote-poll", {
+  room,
+  option,
+  username,
+});
+
+  console.log("VOTE EMITTED");
+}}
+    style={{
+      display: "block",
+      width: "100%",
+      marginBottom: "8px",
+      padding: "8px",
+      cursor: "pointer",
+    }}
+  >
+{option} (
+  {poll.votes && poll.votes[option] !== undefined
+    ? poll.votes[option]
+    : 0}
+)
+  </button>
+))}
   </div>
 )}
 <div className="notes-panel">
