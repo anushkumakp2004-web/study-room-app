@@ -136,6 +136,37 @@ socket.on(
     );
   }
 );
+
+socket.on(
+  "vote-poll",
+  async ({ room, option }) => {
+
+    console.log("VOTE RECEIVED");
+    console.log("ROOM:", room);
+    console.log("OPTION:", option);
+
+    const poll = await Poll.findOne({
+      room,
+    });
+
+    if (!poll) return;
+
+    const currentVotes =
+      poll.votes.get(option) || 0;
+
+    poll.votes.set(
+      option,
+      currentVotes + 1
+    );
+
+    await poll.save();
+
+    io.to(room).emit(
+      "poll-updated",
+      poll
+    );
+  }
+);
   socket.on("canvas-update", async ({ room, data }) => {
 
   await Whiteboard.findOneAndUpdate(
