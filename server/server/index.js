@@ -148,6 +148,7 @@ socket.on(
     const poll = await Poll.findOne({
       room,
     });
+    console.log("POLL FOUND:", poll);
 
     if (!poll) return;
 
@@ -160,6 +161,8 @@ socket.on(
     );
 
     await poll.save();
+    console.log("POLL SAVED");
+    console.log("VOTES:", poll.votes);
 
     io.to(room).emit(
       "poll-updated",
