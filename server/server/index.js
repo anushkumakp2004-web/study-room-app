@@ -122,11 +122,12 @@ socket.on(
     });
 
     const poll = await Poll.create({
-      room,
-      question,
-      options,
-      votes,
-    });
+  room,
+  question,
+  options,
+  votes,
+  voters: [],
+});
 
     console.log("POLL CREATED:", poll);
 
@@ -139,7 +140,7 @@ socket.on(
 
 socket.on(
   "vote-poll",
-  async ({ room, option }) => {
+  async ({ room, option, username }) => {
 
     console.log("VOTE RECEIVED");
     console.log("ROOM:", room);
@@ -150,24 +151,20 @@ socket.on(
     });
     console.log("POLL FOUND:", poll);
 
-    if (!poll) return;
-
+if (poll.voters.includes(username)) {
+  return;
+}
     const currentVotes =
       poll.votes.get(option) || 0;
 
-    poll.votes.set(
-      option,
-      currentVotes + 1
-    );
+    poll.voters.push(username);
 
     await poll.save();
     console.log("POLL SAVED");
     console.log("VOTES:", poll.votes);
-
-    io.to(room).emit(
-      "poll-updated",
-      poll
-    );
+    console.log("ABOUT TO EMIT POLL UPDATE");
+io.to(room).emit("poll-updated", poll);
+console.log("EMITTED POLL UPDATE");
   }
 );
   socket.on("canvas-update", async ({ room, data }) => {

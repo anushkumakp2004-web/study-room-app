@@ -9,6 +9,7 @@ const pollSchema = new mongoose.Schema({
     of: Number,
     default: {},
   },
+   voters: [String],
 });
 
 module.exports = mongoose.model(
