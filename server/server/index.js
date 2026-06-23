@@ -12,6 +12,7 @@ require("dotenv").config();
 const Message = require("./models/Message");
 const Note = require("./models/Note");
 const Whiteboard = require("./models/Whiteboard");
+const Poll = require("./models/Poll");
 
 const app = express();
 app.use(
@@ -99,6 +100,40 @@ io.on("connection", (socket) => {
     callback({
       success: true,
     });
+  }
+);
+socket.on(
+  "create-poll",
+  async ({ room, question, options }) => {
+
+    console.log("CREATE POLL RECEIVED");
+    console.log("ROOM:", room);
+    console.log("QUESTION:", question);
+    console.log("OPTIONS:", options);
+
+    await Poll.deleteMany({
+      room,
+    });
+
+    const votes = {};
+
+    options.forEach((option) => {
+      votes[option] = 0;
+    });
+
+    const poll = await Poll.create({
+      room,
+      question,
+      options,
+      votes,
+    });
+
+    console.log("POLL CREATED:", poll);
+
+    io.to(room).emit(
+      "poll-created",
+      poll
+    );
   }
 );
   socket.on("canvas-update", async ({ room, data }) => {

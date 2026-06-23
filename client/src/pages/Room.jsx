@@ -16,15 +16,20 @@ const [username, setUsername] = useState(
 );
   const [room, setRoom] = useState("");
   const [joined, setJoined] = useState(false);
+  const [error, setError] = useState("");
   const [notes, setNotes] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const [poll, setPoll] = useState(null);
+  const [pollQuestion, setPollQuestion] = useState("");
+  const [pollOptions, setPollOptions] = useState("");
   const [owner, setOwner] = useState("");
   const [copied, setCopied] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
+  const [notesCopied, setNotesCopied] = useState(false);
 
   useEffect(() => {
     if (roomId) {
@@ -46,7 +51,7 @@ useEffect(() => {
       },
       (response) => {
   if (!response?.success) {
-    alert(response?.message || "Unable to join room");
+setError(response?.message || "Unable to join room");
     navigate("/");
     return;
   }
@@ -91,6 +96,10 @@ useEffect(() => {
 
  socket.on("room-owner", (roomOwner) => {
   setOwner(roomOwner || "");
+});
+
+  socket.on("poll-created", (pollData) => {
+  setPoll(pollData);
 });
 
   socket.on("notes-change", (updatedNotes) => {
@@ -160,15 +169,18 @@ socket.emit(
     username,
     password: enteredPassword || "",
   },
-    (response) => {
-  if (!response?.success) {
-  alert(response?.message || "Unable to join room");
-  return;
-}
+  (response) => {
+    if (!response?.success) {
+      setError(
+        response?.message || "Unable to join room"
+      );
+      return;
+    }
 
-setJoined(true);
-}
-  );
+    setError("");
+    setJoined(true);
+  }
+);
 };
 const sendCanvas = async () => {
   if (!canvasRef.current) return;
@@ -217,6 +229,18 @@ const sendMessage = () => {
 <button onClick={joinRoom}>
   Join Room
 </button>
+
+{error && (
+  <p
+    style={{
+      color: "#ff6b6b",
+      marginTop: "10px",
+      fontWeight: "bold",
+    }}
+  >
+    ❌ {error}
+  </p>
+)}
         </div>
       ) : (
       <>
@@ -249,6 +273,66 @@ const sendMessage = () => {
   >
     Delete Room
   </button>
+)}
+
+{username === owner && (
+  <div
+    style={{
+      marginTop: "15px",
+      marginBottom: "15px",
+    }}
+  >
+    <h3>Create Poll</h3>
+
+    <input
+      type="text"
+      placeholder="Poll Question"
+      value={pollQuestion}
+      onChange={(e) =>
+        setPollQuestion(e.target.value)
+      }
+    />
+
+    <br />
+    <br />
+
+    <input
+      type="text"
+      placeholder="Option1,Option2,Option3"
+      value={pollOptions}
+      onChange={(e) =>
+        setPollOptions(e.target.value)
+      }
+    />
+
+    <br />
+    <br />
+
+    <button
+      onClick={() => {
+        console.log("CREATING POLL", {
+  room,
+  question: pollQuestion,
+  options: pollOptions
+    .split(",")
+    .map((o) => o.trim()),
+});
+
+socket.emit("create-poll", {
+  room,
+  question: pollQuestion,
+  options: pollOptions
+    .split(",")
+    .map((o) => o.trim()),
+});
+
+        setPollQuestion("");
+        setPollOptions("");
+      }}
+    >
+      Create Poll
+    </button>
+  </div>
 )}
 <p>
   Owner: {owner} 👑
@@ -421,23 +505,95 @@ window.location.href = "/";
 })}
 <div ref={messagesEndRef}></div>
     </div>
+    {poll && (
+  <div
+    style={{
+      padding: "15px",
+      border: "1px solid #ccc",
+      marginBottom: "15px",
+      borderRadius: "10px",
+    }}
+  >
+    <h3>📊 Live Poll</h3>
+
+    <p>
+      <strong>{poll.question}</strong>
+    </p>
+
+    {poll.options.map((option) => (
+      <div key={option}>
+        ○ {option}
+      </div>
+    ))}
+  </div>
+)}
 <div className="notes-panel">
   <h3>Shared Notes</h3>
+  <div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginBottom: "10px",
+  }}
+>
+  <button
+    onClick={() => {
+      navigator.clipboard.writeText(notes);
+
+      setNotesCopied(true);
+
+      setTimeout(() => {
+        setNotesCopied(false);
+      }, 2000);
+    }}
+  >
+    Copy Notes
+  </button>
+
+  <button
+  onClick={() => {
+    const blob = new Blob([notes], {
+      type: "text/plain",
+    });
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download = `${room}-notes.txt`;
+
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+  }}
+>
+  Download Notes
+</button>
+</div>
+
+  {notesCopied && (
+    <p
+      style={{
+        color: "#4ade80",
+        fontWeight: "bold",
+      }}
+    >
+      ✅ Notes copied
+    </p>
+  )}
 
   <textarea
-  placeholder="Write study notes here..."
-  value={notes}
-  onChange={(e) => {
-  console.log("Sending notes:", e.target.value);
+    placeholder="Write study notes here..."
+    value={notes}
+    onChange={(e) => {
+      setNotes(e.target.value);
 
-  setNotes(e.target.value);
-
-  socket.emit("notes-change", {
-    room,
-    notes: e.target.value,
-  });
-}}
-/>
+      socket.emit("notes-change", {
+        room,
+        notes: e.target.value,
+      });
+    }}
+  />
 </div>
 <div className="whiteboard-panel">
   <h3>Whiteboard</h3>
