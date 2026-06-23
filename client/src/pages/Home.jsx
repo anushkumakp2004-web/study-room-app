@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 function Home() {
+  const navigate = useNavigate();
+  const [roomId, setRoomId] = useState("");
   return (
     <div
   style={{
@@ -61,24 +63,63 @@ function Home() {
   <p>🎨 Collaborative Whiteboard</p>
   <p>👥 Multi-User Rooms</p>
 </div>
-
-      <Link to="/create">
-<button
+<input
+  type="text"
+  placeholder="Enter Room ID"
+  value={roomId}
+  onChange={(e) => setRoomId(e.target.value)}
   style={{
-  padding: "16px 32px",
-  borderRadius: "12px",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "18px",
-  fontWeight: "bold",
-  background: "#ffffff",
-  color: "#5b4bdb",
-  boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
-}}
+    padding: "12px",
+    width: "100%",
+    maxWidth: "300px",
+    borderRadius: "10px",
+    border: "none",
+    marginBottom: "20px",
+    fontSize: "16px",
+  }}
+/>
+
+      <div>
+      <br />
+<br />
+
+<button
+  onClick={() => {
+    if (!roomId.trim()) return;
+
+    navigate(`/room/${roomId}`);
+  }}
+  style={{
+    padding: "14px 28px",
+    borderRadius: "12px",
+    border: "1px solid white",
+    cursor: "pointer",
+    fontSize: "16px",
+    fontWeight: "bold",
+    background: "transparent",
+    color: "white",
+  }}
 >
-  Join Study Room
+  Join Existing Room
 </button>
-      </Link>
+<Link to="/create">
+  <button
+    style={{
+      padding: "16px 32px",
+      borderRadius: "12px",
+      border: "none",
+      cursor: "pointer",
+      fontSize: "18px",
+      fontWeight: "bold",
+      background: "#ffffff",
+      color: "#5b4bdb",
+      boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+    }}
+  >
+    Join Study Room
+  </button>
+</Link>
+      </div>
     </div>
     </div>
     
