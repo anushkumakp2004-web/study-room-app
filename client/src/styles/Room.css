@@ -327,11 +327,11 @@ textarea {
 }
 
 .whiteboard-panel {
-  grid-column: 2 / 4;
+  grid-column: 2;
   grid-row: 2;
 
   width: 100%;
-  max-width: 800px;
+  max-width: 650px;
 
-  justify-self: center;
+  justify-self: start;
 }
