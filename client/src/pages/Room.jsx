@@ -602,8 +602,38 @@ Copy Invite Link
 <div ref={messagesEndRef}></div>
     </div>
     {poll && (
-  <div className="poll-panel">
-    <h3>📊 Live Poll</h3>
+  <div
+  className="poll-panel"
+  style={{
+    padding: "20px",
+    borderRadius: "16px",
+    background: darkMode ? "#1f2937" : "#ffffff",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.12)",
+    marginBottom: "20px",
+  }}
+>
+    <h3
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "15px",
+  }}
+>
+  <span>📊 Live Poll</span>
+
+  <span
+    style={{
+      background: "#6366f1",
+      color: "white",
+      padding: "4px 10px",
+      borderRadius: "20px",
+      fontSize: "13px",
+    }}
+  >
+    Active
+  </span>
+</h3>
 
     <p>
       <strong>{poll.question}</strong>
