@@ -37,6 +37,7 @@ function CreateRoom() {
 
   const createRoom = () => {
   console.log("CREATE BUTTON CLICKED");
+  setLoading(true);
   const randomRoomId = Math.random()
     .toString(36)
     .substring(2, 8)
@@ -54,12 +55,14 @@ console.log("CONNECTED?", socket.connected);
     (response) => {
       console.log("CREATE RESPONSE:", response);
 
-      if (response.success) {
+     if (response.success) {
   navigate(`/room/${finalRoomId}`, {
     state: {
       username,
     },
   });
+} else {
+  setLoading(false);
 }
     }
   );
@@ -90,9 +93,16 @@ console.log("CONNECTED?", socket.connected);
       onChange={(e) => setPassword(e.target.value)}
     />
 
-    <button onClick={createRoom}>
-      Create Room
-    </button>
+    <button
+  onClick={createRoom}
+  disabled={loading}
+  style={{
+    opacity: loading ? 0.7 : 1,
+    cursor: loading ? "not-allowed" : "pointer",
+  }}
+>
+  {loading ? "⏳ Creating..." : "🚀 Create Room"}
+</button>
   </div>
 );
 }
