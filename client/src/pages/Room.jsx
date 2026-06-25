@@ -435,9 +435,29 @@ Copy Invite Link
   <div className="chat-layout">
 
     <div className="users-panel">
-      <h3>Online Users ({users.length})</h3>
-      <p>Count: {users.length}</p>
+      <h3
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "15px",
+  }}
+>
+  <span>👥 Online Users</span>
 
+  <span
+    style={{
+      background: "#10b981",
+      color: "white",
+      padding: "4px 10px",
+      borderRadius: "20px",
+      fontSize: "14px",
+      fontWeight: "bold",
+    }}
+  >
+    {users.length}
+  </span>
+</h3>
       {users.map((user, index) => (
   <div
     key={index}
