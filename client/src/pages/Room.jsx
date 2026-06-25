@@ -63,6 +63,12 @@ setError(response?.message || "Unable to join room");
   }
 }, [room]); 
 
+useEffect(() => {
+  messagesEndRef.current?.scrollIntoView({
+    behavior: "smooth",
+  });
+}, [messages]);
+
   useEffect(() => {
   const handleMessage = (msg) => {
 
