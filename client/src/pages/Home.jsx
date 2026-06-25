@@ -182,6 +182,9 @@ onFocus={(e) => {
     background: "transparent",
     color: "white",
     transition: "0.3s",
+
+    opacity: loading ? 0.7 : 1,
+    cursor: loading ? "not-allowed" : "pointer",
   }}
 >
   {loading ? "⏳ Joining..." : "🔗 Join Existing Room"}
