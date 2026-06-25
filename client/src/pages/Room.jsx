@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import io from "socket.io-client";
@@ -27,11 +28,9 @@ const [username, setUsername] = useState(
   const [pollOptions, setPollOptions] = useState("");
   const [owner, setOwner] = useState("");
   const [showPollForm, setShowPollForm] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
-  const [notesCopied, setNotesCopied] = useState(false);
 
   useEffect(() => {
     if (roomId) {
@@ -392,11 +391,7 @@ window.location.href = "/";
   `${window.location.origin}/room/${room}`
 );
 
-    setCopied(true);
-
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
+    toast.success("Invite link copied!");
   }}
 >
   {copied ? "Copied!" : "Copy Invite Link"}
@@ -613,14 +608,10 @@ window.location.href = "/";
 >
   <button
     onClick={() => {
-      navigator.clipboard.writeText(notes);
+  navigator.clipboard.writeText(notes);
 
-      setNotesCopied(true);
-
-      setTimeout(() => {
-        setNotesCopied(false);
-      }, 2000);
-    }}
+  toast.success("Notes copied!");
+}}
   >
     Copy Notes
   </button>
@@ -645,17 +636,6 @@ window.location.href = "/";
   Download Notes
 </button>
 </div>
-
-  {notesCopied && (
-    <p
-      style={{
-        color: "#4ade80",
-        fontWeight: "bold",
-      }}
-    >
-      ✅ Notes copied
-    </p>
-  )}
 
   <textarea
     placeholder="Write study notes here..."
