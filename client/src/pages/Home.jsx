@@ -29,10 +29,11 @@ function Home() {
     width: "90%",
   }}
 >
-      <div
+     <div
   style={{
     fontSize: "70px",
     marginBottom: "10px",
+    animation: "float 3s ease-in-out infinite",
   }}
 >
   📚
@@ -197,5 +198,6 @@ placeholder="👤 Enter your username"
     
   );
 }
+
 
 export default Home;
