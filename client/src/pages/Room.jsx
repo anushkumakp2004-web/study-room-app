@@ -394,7 +394,7 @@ window.location.href = "/";
     toast.success("Invite link copied!");
   }}
 >
-  {copied ? "Copied!" : "Copy Invite Link"}
+Copy Invite Link
 </button>
   
   <input
