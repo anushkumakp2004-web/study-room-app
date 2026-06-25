@@ -20,6 +20,7 @@ function Home() {
     <div
   style={{
     background: "rgba(255,255,255,0.1)",
+    transition: "all 0.3s ease",
     padding: "50px 45px",
     borderRadius: "24px",
     border: "1px solid rgba(255,255,255,0.2)",
