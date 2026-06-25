@@ -184,7 +184,13 @@ socket.on(
   }
 );
 socket.on("typing", ({ room, username }) => {
+  console.log("TYPING EVENT RECEIVED");
+  console.log("ROOM:", room);
+  console.log("USERNAME:", username);
+
   socket.to(room).emit("user-typing", username);
+
+  console.log("EMITTED user-typing");
 });
   socket.on("canvas-update", async ({ room, data }) => {
 

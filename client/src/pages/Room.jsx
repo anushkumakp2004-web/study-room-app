@@ -105,6 +105,8 @@ setError(response?.message || "Unable to join room");
 });
 
 socket.on("user-typing", (name) => {
+  console.log("USER TYPING:", name);
+
   setTypingUser(name);
 
   setTimeout(() => {
@@ -405,12 +407,18 @@ window.location.href = "/";
   placeholder="Type a message"
   value={message}
   onChange={(e) => {
+  console.log("INPUT CHANGED");
+  console.log("ROOM:", room);
+  console.log("USERNAME:", username);
+
   setMessage(e.target.value);
 
   socket.emit("typing", {
     room,
     username,
   });
+
+  console.log("TYPING EMITTED");
 }}
   onKeyDown={(e) => {
     if (e.key === "Enter") {
@@ -692,6 +700,20 @@ window.location.href = "/";
   >
     🗑️ Clear Whiteboard
   </button>
+  <button
+  onClick={() => {
+    canvasRef.current.exportImage().then((data) => {
+      const link = document.createElement("a");
+
+      link.href = data;
+      link.download = `${room}-whiteboard.png`;
+
+      link.click();
+    });
+  }}
+>
+  📥 Download Whiteboard
+</button>
 </div>
   </div>
 </>
