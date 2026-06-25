@@ -29,7 +29,16 @@ function Home() {
     width: "90%",
   }}
 >
-      <h1
+      <div
+  style={{
+    fontSize: "70px",
+    marginBottom: "10px",
+  }}
+>
+  📚
+</div>
+
+<h1
   style={{
     fontSize: "3rem",
     color: "#fff",
@@ -38,7 +47,7 @@ function Home() {
     letterSpacing: "1px",
   }}
 >
-  📚 Study Room
+  Study Room
 </h1>
 <p
   style={{
