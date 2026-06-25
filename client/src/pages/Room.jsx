@@ -256,12 +256,7 @@ const sendMessage = () => {
     {room}
   </span>
 </h1>
-      <button
-  onClick={() => setDarkMode(!darkMode)}
->
-  {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
-</button>
-
+      
       {!joined ? (
         <div className="chat-layout">
           <input
@@ -394,22 +389,73 @@ setShowPollForm(false);
 )}
   </div>
 )}
-<p>
-  Owner: {owner} 👑
-</p><button
-  onClick={() => {
-    setJoined(false);
-setUsers([]);
-setMessages([]);
-setNotes("");
-setOwner("");
-setRoom("");
-
-window.location.href = "/";
+<div
+  style={{
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  flexWrap: "wrap",
+  gap: "15px",
+  marginBottom: "20px",
+}}
+>
+<div
+  style={{
+    padding: "12px 18px",
+    borderRadius: "12px",
+    background: darkMode ? "#1f2937" : "#f3f4f6",
+    display: "inline-block",
+    marginBottom: "15px",
   }}
 >
-  Leave Room
+  <p
+    style={{
+      margin: 0,
+      fontWeight: "600",
+      fontSize: "16px",
+    }}
+  >
+    👑 Owner: {owner}
+  </p>
+</div>
+<button
+  style={{
+    padding: "10px 18px",
+    borderRadius: "10px",
+    background: "#ef4444",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+    fontWeight: "600",
+  }}
+  onClick={() => {
+    setJoined(false);
+    setUsers([]);
+    setMessages([]);
+    setNotes("");
+    setOwner("");
+    setRoom("");
+
+    window.location.href = "/";
+  }}
+>
+  🚪 Leave Room
 </button>
+<button
+  style={{
+    padding: "10px 18px",
+    borderRadius: "10px",
+    border: "none",
+    background: darkMode ? "#facc15" : "#374151",
+    color: darkMode ? "#000" : "#fff",
+    cursor: "pointer",
+    fontWeight: "600",
+  }}
+  onClick={() => setDarkMode(!darkMode)}
+>
+  {darkMode ? "☀️ Light" : "🌙 Dark"}
+</button>
+</div>
 <p className="invite-link">
   Invite Link: {window.location.origin}/room/{room}
 </p>
