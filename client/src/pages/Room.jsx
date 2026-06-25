@@ -21,6 +21,7 @@ const [username, setUsername] = useState(
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const [typingUser, setTypingUser] = useState("");
   const [poll, setPoll] = useState(null);
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState("");
@@ -101,6 +102,14 @@ setError(response?.message || "Unable to join room");
 
   socket.on("poll-created", (pollData) => {
   setPoll(pollData);
+});
+
+socket.on("user-typing", (name) => {
+  setTypingUser(name);
+
+  setTimeout(() => {
+    setTypingUser("");
+  }, 2000);
 });
 
 socket.on("poll-updated", (updatedPoll) => {
@@ -395,7 +404,14 @@ window.location.href = "/";
   type="text"
   placeholder="Type a message"
   value={message}
-  onChange={(e) => setMessage(e.target.value)}
+  onChange={(e) => {
+  setMessage(e.target.value);
+
+  socket.emit("typing", {
+    room,
+    username,
+  });
+}}
   onKeyDown={(e) => {
     if (e.key === "Enter") {
       sendMessage();
@@ -524,6 +540,17 @@ window.location.href = "/";
     </div>
   );
 })}
+{typingUser && (
+  <p
+    style={{
+      color: "#6b7280",
+      fontStyle: "italic",
+      marginTop: "10px",
+    }}
+  >
+    ✍️ {typingUser} is typing...
+  </p>
+)}
 <div ref={messagesEndRef}></div>
     </div>
     {poll && (

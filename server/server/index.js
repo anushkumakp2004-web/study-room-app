@@ -183,6 +183,9 @@ socket.on(
     }
   }
 );
+socket.on("typing", ({ room, username }) => {
+  socket.to(room).emit("user-typing", username);
+});
   socket.on("canvas-update", async ({ room, data }) => {
 
   await Whiteboard.findOneAndUpdate(
