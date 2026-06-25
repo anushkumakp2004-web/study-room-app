@@ -4,6 +4,7 @@ function Home() {
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
   return (
     <div
   style={{
