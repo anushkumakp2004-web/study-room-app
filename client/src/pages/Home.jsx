@@ -139,10 +139,11 @@ placeholder="👤 Enter your username"
 
   boxSizing: "border-box",
 }}
-/>
 onFocus={(e) => {
   e.target.style.border = "1px solid white";
 }}
+/>
+
 
       <div>
       <br />
