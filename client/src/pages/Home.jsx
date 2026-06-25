@@ -77,33 +77,51 @@ function Home() {
 </div>
 <input
   type="text"
-  placeholder="Enter Room ID"
+placeholder="🔗 Enter Room ID"
   value={roomId}
   onChange={(e) => setRoomId(e.target.value)}
   style={{
-    padding: "12px",
-    width: "100%",
-    maxWidth: "300px",
-    borderRadius: "10px",
-    border: "none",
-    marginBottom: "20px",
-    fontSize: "16px",
-  }}
+  width: "100%",
+  padding: "15px",
+  marginBottom: "18px",
+
+  borderRadius: "12px",
+  border: "1px solid rgba(255,255,255,0.3)",
+
+  background: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(10px)",
+
+  color: "white",
+  fontSize: "16px",
+
+  outline: "none",
+
+  boxSizing: "border-box",
+}}
 />
 <input
   type="text"
-  placeholder="Enter Username"
+placeholder="👤 Enter your username"
   value={username}
   onChange={(e) => setUsername(e.target.value)}
   style={{
-    padding: "12px",
-    width: "100%",
-    maxWidth: "300px",
-    borderRadius: "10px",
-    border: "none",
-    marginBottom: "20px",
-    fontSize: "16px",
-  }}
+  width: "100%",
+  padding: "15px",
+  marginBottom: "18px",
+
+  borderRadius: "12px",
+  border: "1px solid rgba(255,255,255,0.3)",
+
+  background: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(10px)",
+
+  color: "white",
+  fontSize: "16px",
+
+  outline: "none",
+
+  boxSizing: "border-box",
+}}
 />
 
       <div>
