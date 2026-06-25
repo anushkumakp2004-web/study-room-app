@@ -40,11 +40,12 @@ onMouseLeave={(e) => {
   src="/logo.png"
   alt="Study Room Logo"
   style={{
-    width: "90px",
-    height: "90px",
-    display: "block",
-    margin: "0 auto 20px",
-  }}
+  width: "110px",
+  height: "110px",
+  display: "block",
+  margin: "0 auto 16px",
+  borderRadius: "16px",
+}}
 />
 
 <h1
