@@ -112,43 +112,56 @@ function Home() {
 
 <button
   onClick={() => {
-  if (!roomId.trim()) return;
-  if (!username.trim()) return;
+    if (!roomId.trim()) return;
+    if (!username.trim()) return;
 
-  navigate(`/room/${roomId}`, {
-    state: {
-      username,
-    },
-  });
-}}
+    navigate(`/room/${roomId}`, {
+      state: {
+        username,
+      },
+    });
+  }}
   style={{
-    padding: "14px 28px",
+    width: "100%",
+    padding: "15px",
+    marginTop: "15px",
     borderRadius: "12px",
-    border: "1px solid white",
+    border: "2px solid white",
     cursor: "pointer",
-    fontSize: "16px",
-    fontWeight: "bold",
+    fontSize: "17px",
+    fontWeight: "600",
     background: "transparent",
     color: "white",
+    transition: "0.3s",
   }}
 >
-  Join Existing Room
+  🔗 Join Existing Room
 </button>
-<Link to="/create">
+
+<Link
+  to="/create"
+  style={{
+    width: "100%",
+    textDecoration: "none",
+  }}
+>
   <button
     style={{
-      padding: "16px 32px",
+      width: "100%",
+      padding: "15px",
+      marginTop: "18px",
       borderRadius: "12px",
       border: "none",
       cursor: "pointer",
-      fontSize: "18px",
-      fontWeight: "bold",
+      fontSize: "17px",
+      fontWeight: "600",
       background: "#ffffff",
       color: "#5b4bdb",
-      boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+      boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
+      transition: "0.3s",
     }}
   >
-    Join Study Room
+    🚀 Create Study Room
   </button>
 </Link>
       </div>
