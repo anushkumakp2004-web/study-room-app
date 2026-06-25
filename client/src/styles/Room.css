@@ -320,3 +320,17 @@ textarea {
   background: #1e1e1e;
   color: white;
 }
+.poll-panel {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.whiteboard-panel {
+  grid-column: 2 / 4;
+  grid-row: 2;
+
+  width: 100%;
+  max-width: 800px;
+
+  justify-self: center;
+}
