@@ -505,8 +505,27 @@ Copy Invite Link
     </div>
 
     <div className="chat-panel">
-      <h3>Messages</h3>
-      <h4>Total Messages: {messages.length}</h4>
+      <h3
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }}
+>
+  <span>💬 Messages</span>
+
+  <span
+    style={{
+      background: "#4f46e5",
+      color: "white",
+      padding: "4px 10px",
+      borderRadius: "20px",
+      fontSize: "14px",
+    }}
+  >
+    {messages.length}
+  </span>
+</h3>
      {messages.map((msg, index) => {
   if (msg.username === "System") {
     return (
