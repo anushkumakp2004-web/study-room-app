@@ -32,12 +32,23 @@ function Home() {
       <h1
   style={{
     fontSize: "3rem",
-    marginBottom: "15px",
-    color: "white",
+    color: "#fff",
+    marginBottom: "10px",
+    fontWeight: "800",
+    letterSpacing: "1px",
   }}
 >
   📚 Study Room
 </h1>
+<p
+  style={{
+    color: "#e5e7eb",
+    fontSize: "18px",
+    marginBottom: "35px",
+  }}
+>
+  Study together. Chat together. Learn together.
+</p>
 
 <p
   style={{
