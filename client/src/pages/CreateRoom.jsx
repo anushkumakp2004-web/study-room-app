@@ -31,6 +31,7 @@ socket.on("server-test", (msg) => {
 function CreateRoom() {
   const [roomId, setRoomId] = useState("");
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
