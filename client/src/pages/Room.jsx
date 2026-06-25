@@ -696,34 +696,50 @@ Copy Invite Link
     />
   </div>
 
-  <button
-    onClick={() => {
-      canvasRef.current.clearCanvas();
-
-      socket.emit("canvas-clear", room);
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      gap: "12px",
+      marginTop: "10px",
     }}
   >
-    🗑️ Clear Whiteboard
-  </button>
-  <button
-  onClick={() => {
-    canvasRef.current.exportImage().then((data) => {
-      const link = document.createElement("a");
+    <button
+      style={{ flex: 1 }}
+      onClick={() => {
+        canvasRef.current.clearCanvas();
+        socket.emit("canvas-clear", room);
+        toast.success("Whiteboard cleared!");
+      }}
+    >
+      🗑️ Clear
+    </button>
 
-      link.href = data;
-      link.download = `${room}-whiteboard.png`;
+    <button
+      style={{ flex: 1 }}
+      onClick={() => {
+        canvasRef.current.exportImage().then((data) => {
+          const link = document.createElement("a");
 
-      link.click();
-    });
-  }}
->
-  📥 Download Whiteboard
-</button>
-</div>
+          link.href = data;
+          link.download = `${room}-whiteboard.png`;
+
+          link.click();
+
+          toast.success("Whiteboard downloaded!");
+        });
+      }}
+    >
+      📥 Download
+    </button>
   </div>
-</>
-      )}
-    </div>
-  );
+</div>
+
+      </div>
+    </>
+  )}
+</div>
+);
 }
+
 export default Room;
