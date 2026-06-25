@@ -25,6 +25,7 @@ const [username, setUsername] = useState(
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState("");
   const [owner, setOwner] = useState("");
+  const [showPollForm, setShowPollForm] = useState(false);
   const [copied, setCopied] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const messagesEndRef = useRef(null);
@@ -288,6 +289,17 @@ const sendMessage = () => {
       marginBottom: "15px",
     }}
   >
+  <button
+  onClick={() =>
+    setShowPollForm(!showPollForm)
+  }
+>
+  {showPollForm
+    ? "Hide Poll Form"
+    : "Create New Poll"}
+</button>
+    {showPollForm && (
+  <>
     <h3>Create Poll</h3>
 
     <input
@@ -333,11 +345,14 @@ socket.emit("create-poll", {
 });
 
         setPollQuestion("");
-        setPollOptions("");
+setPollOptions("");
+setShowPollForm(false);
       }}
     >
       Create Poll
     </button>
+      </>
+)}
   </div>
 )}
 <p>

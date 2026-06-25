@@ -6,6 +6,13 @@ body {
 
 h1 {
   text-align: center;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+
+  text-shadow:
+    0 2px 10px rgba(0,0,0,0.3);
 }
 
 input {
@@ -21,6 +28,13 @@ button {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
+  min-height: 100vh;
+
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
 }
 
 .chat-layout {
@@ -127,34 +141,56 @@ button {
 }
 
 .dark button {
-  background: #333;
+  background: #6366f1;
   color: white;
-  border: 1px solid #555;
+  border: none;
 }
 
 .dark .message-bubble {
   color: white;
 }
-.chat-panel,
 .users-panel,
+.chat-panel,
 .notes-panel,
 .whiteboard-panel {
-  padding: 15px;
-  border-radius: 12px;
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 18px;
+
   margin: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.12);
+
+  border: none;
 }
 button {
-  padding: 10px 16px;
-  border-radius: 8px;
+  padding: 12px 18px;
+
   border: none;
+  border-radius: 10px;
+
+  background: #4f46e5;
+  color: white;
+
+  font-weight: 600;
+
   cursor: pointer;
+
   margin: 5px;
-  transition: 0.2s;
+
+  transition: all 0.2s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
+
+  background: #4338ca;
+
+  box-shadow:
+    0 8px 20px rgba(79,70,229,0.3);
 }
 input,
 textarea {
@@ -251,4 +287,21 @@ textarea {
   max-width: 450px;
 
   justify-self: center;
+}
+.users-panel h3,
+.chat-panel h3,
+.notes-panel h3,
+.whiteboard-panel h3 {
+  margin-top: 0;
+  color: #4f46e5;
+  font-weight: 700;
+}
+.dark .users-panel h3,
+.dark .chat-panel h3,
+.dark .notes-panel h3,
+.dark .whiteboard-panel h3 {
+  color: #818cf8;
+}
+.users-panel {
+  background: red !important;
 }
