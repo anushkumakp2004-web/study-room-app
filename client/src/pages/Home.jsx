@@ -29,6 +29,9 @@ function Home() {
     maxWidth: "500px",
     width: "90%",
   }}
+  onMouseEnter={(e) => {
+  e.currentTarget.style.transform = "translateY(-8px)";
+}}
 >
      <div
   style={{
