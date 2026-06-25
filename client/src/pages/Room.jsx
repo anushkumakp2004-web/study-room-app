@@ -232,7 +232,30 @@ const sendMessage = () => {
   className={`room-container ${
     darkMode ? "dark" : ""
   }`}
->      <h1>Study Room</h1>
+>      <h1
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "20px",
+    fontSize: "2rem",
+  }}
+>
+  <span>📚 Study Room</span>
+
+  <span
+    style={{
+      background: "#4f46e5",
+      color: "white",
+      padding: "6px 14px",
+      borderRadius: "20px",
+      fontSize: "15px",
+      fontWeight: "600",
+    }}
+  >
+    {room}
+  </span>
+</h1>
       <button
   onClick={() => setDarkMode(!darkMode)}
 >
