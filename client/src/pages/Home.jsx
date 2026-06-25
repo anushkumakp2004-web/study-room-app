@@ -36,23 +36,25 @@ onMouseLeave={(e) => {
   e.currentTarget.style.transform = "translateY(0)";
 }}
 >
-     <div
+  <img
+  src="/logo.png"
+  alt="Study Room"
   style={{
-    fontSize: "70px",
-    marginBottom: "10px",
-    animation: "float 3s ease-in-out infinite",
+    width: "80px",
+    height: "80px",
+    marginBottom: "20px",
   }}
->
-  📚
-</div>
+/>
 
 <h1
   style={{
     fontSize: "3rem",
     color: "#fff",
-    marginBottom: "10px",
+    marginTop: "0",
+    marginBottom: "0",
     fontWeight: "800",
     letterSpacing: "1px",
+    lineHeight: "1.2",
   }}
 >
   Study Room
@@ -61,7 +63,9 @@ onMouseLeave={(e) => {
   style={{
     color: "#e5e7eb",
     fontSize: "18px",
+    marginTop: "4px",
     marginBottom: "35px",
+    lineHeight: "1.5",
   }}
 >
   Study together. Chat together. Learn together.
@@ -146,8 +150,6 @@ onFocus={(e) => {
 
 
       <div>
-      <br />
-<br />
 
 <button
   onClick={() => {
@@ -163,7 +165,7 @@ onFocus={(e) => {
   style={{
     width: "100%",
     padding: "15px",
-    marginTop: "15px",
+    marginTop: "8px",
     borderRadius: "12px",
     border: "2px solid white",
     cursor: "pointer",
@@ -188,7 +190,7 @@ onFocus={(e) => {
     style={{
       width: "100%",
       padding: "15px",
-      marginTop: "18px",
+      marginTop: "12px",
       borderRadius: "12px",
       border: "none",
       cursor: "pointer",
