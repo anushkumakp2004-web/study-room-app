@@ -155,16 +155,21 @@ onFocus={(e) => {
       <div>
 
 <button
+  disabled={loading}
   onClick={() => {
-    if (!roomId.trim()) return;
-    if (!username.trim()) return;
+  if (!roomId.trim()) return;
+  if (!username.trim()) return;
 
+  setLoading(true);
+
+  setTimeout(() => {
     navigate(`/room/${roomId}`, {
       state: {
         username,
       },
     });
-  }}
+  }, 800);
+}}
   style={{
     width: "100%",
     padding: "15px",
@@ -179,7 +184,7 @@ onFocus={(e) => {
     transition: "0.3s",
   }}
 >
-  🔗 Join Existing Room
+  {loading ? "⏳ Joining..." : "🔗 Join Existing Room"}
 </button>
 
 <Link
