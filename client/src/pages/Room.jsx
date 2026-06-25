@@ -527,14 +527,7 @@ window.location.href = "/";
 <div ref={messagesEndRef}></div>
     </div>
     {poll && (
-  <div
-    style={{
-      padding: "15px",
-      border: "1px solid #ccc",
-      marginBottom: "15px",
-      borderRadius: "10px",
-    }}
-  >
+  <div className="poll-panel">
     <h3>📊 Live Poll</h3>
 
     <p>

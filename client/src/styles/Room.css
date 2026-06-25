@@ -302,6 +302,21 @@ textarea {
 .dark .whiteboard-panel h3 {
   color: #818cf8;
 }
-.users-panel {
-  background: red !important;
+.poll-panel {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  margin: 10px;
+
+  width: 250px;
+
+  min-height: 250px;
+}
+
+.dark .poll-panel {
+  background: #1e1e1e;
+  color: white;
 }
