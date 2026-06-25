@@ -636,26 +636,35 @@ window.location.href = "/";
   />
 </div>
 <div className="whiteboard-panel">
-  <h3>Whiteboard</h3>
+  <h3>🖍️ Whiteboard</h3>
 
-  <ReactSketchCanvas
-  ref={canvasRef}
-  width="100%"
-  height="400px"
-  strokeWidth={4}
-  strokeColor="black"
-  onStroke={() => sendCanvas()}
-/>
+  <div
+    style={{
+      borderRadius: "18px",
+      overflow: "hidden",
+      marginBottom: "15px",
+      background: "#fff",
+    }}
+  >
+    <ReactSketchCanvas
+      ref={canvasRef}
+      width="100%"
+      height="400px"
+      strokeWidth={4}
+      strokeColor="black"
+      onStroke={() => sendCanvas()}
+    />
+  </div>
 
-<button
-  onClick={() => {
-    canvasRef.current.clearCanvas();
+  <button
+    onClick={() => {
+      canvasRef.current.clearCanvas();
 
-    socket.emit("canvas-clear", room);
-  }}
->
-  Clear
-</button>
+      socket.emit("canvas-clear", room);
+    }}
+  >
+    🗑️ Clear Whiteboard
+  </button>
 </div>
   </div>
 </>

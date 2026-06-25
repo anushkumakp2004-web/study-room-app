@@ -116,8 +116,10 @@ button {
   max-width: 100%;
 
   border: 1px solid white;
-  border-radius: 12px;
+  border-radius: 22px;
   padding: 20px;
+  overflow: hidden;
+  transition: 0.3s;
 }
 .dark {
   background-color: #121212;
@@ -361,4 +363,9 @@ textarea {
     opacity: 1;
     transform: translateY(0);
   }
+}
+.canvas-container,
+.canvas-wrapper {
+  border-radius: 18px;
+  overflow: hidden;
 }
