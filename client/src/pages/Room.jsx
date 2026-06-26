@@ -265,7 +265,7 @@ const sendMessage = () => {
   style={{
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "flex-start",
   flexWrap: "wrap",
   gap: "15px",
   margin: "20px 0",
@@ -507,7 +507,7 @@ const sendMessage = () => {
     color: darkMode ? "#fff" : "#374151",
   }}
 >
-  🔗 Invite Friends
+  🔗 Share Room
 </h4>
 
 <button
