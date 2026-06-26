@@ -1,24 +1,36 @@
-# Study Room App
+# 📚 Real-Time Study Room
 
-A real-time collaborative study platform built with React, Node.js, MongoDB, and Socket.IO.
+A full-stack real-time collaboration platform where users can create or join study rooms to chat, share notes, draw on a collaborative whiteboard, and participate in live polls.
 
-## Live Demo
+## 🚀 Live Demo
 
-https://study-room-app-eight.vercel.app
+**Frontend:** https://study-room-app-eight.vercel.app
 
-## Features
+**Backend:** https://study-room-app-backend.onrender.com
 
-* Create study rooms
-* Join rooms using room ID
-* Password-protected rooms
-* Real-time chat
-* Collaborative whiteboard
-* Shared notes
-* Online user tracking
-* Room owner controls
-* Dark mode support
+---
 
-## Tech Stack
+## ✨ Features
+
+* 💬 Real-time chat using Socket.IO
+* 👥 Live online users list
+* 📝 Shared notes with instant synchronization
+* 🎨 Collaborative whiteboard
+* 📊 Live polls with real-time voting
+* 👑 Room owner controls
+
+  * Delete room
+  * Clear chat
+  * Kick users
+* 🔗 Share room using invite link
+* 🌙 Dark mode
+* 📥 Download whiteboard
+* 📄 Download shared notes
+* 📱 Responsive design
+
+---
+
+## 🛠 Tech Stack
 
 ### Frontend
 
@@ -26,25 +38,75 @@ https://study-room-app-eight.vercel.app
 * React Router
 * Socket.IO Client
 * React Sketch Canvas
-* Vite
+* React Hot Toast
+* CSS
 
 ### Backend
 
 * Node.js
-* Express
+* Express.js
 * Socket.IO
-* MongoDB
-* Mongoose
 
 ### Deployment
 
-* Vercel
-* Render
+* Vercel (Frontend)
+* Render (Backend)
 
-## Author
+---
 
-Anush Kumar
+## ⚙️ Installation
 
-## Version
+### Clone the repository
 
-v1.0-mvp
+```bash
+git clone https://github.com/YOUR_USERNAME/study-room-app.git
+```
+
+### Install dependencies
+
+Frontend
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Backend
+
+```bash
+cd server
+npm install
+npm start
+```
+
+---
+
+## 📸 Screenshots
+
+Add screenshots here:
+
+* Home Page
+* Chat & Shared Notes
+* Live Poll
+* Whiteboard
+* Dark Mode
+
+---
+
+## 🎯 Future Improvements
+
+* User authentication
+* File sharing
+* Voice and video calls
+* Emoji reactions
+* Notification sounds
+* Message search
+
+---
+
+## 👨‍💻 Author
+
+**Anush**
+
+Built as a full-stack real-time collaboration project using React, Node.js, Express, and Socket.IO.
