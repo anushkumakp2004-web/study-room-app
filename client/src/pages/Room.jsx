@@ -291,104 +291,149 @@ const sendMessage = () => {
 <p>
   👥 {users.length} Users Online
 </p>
-  {username === owner && (
-  <button
-    onClick={() => {
-      socket.emit("clear-chat", room);
-    }}
-  >
-    Clear Chat
-  </button>
-)}
-{username === owner && (
-  <button
-    onClick={() => {
-      const confirmDelete = window.confirm(
-        "Delete this room permanently?"
-      );
-
-      if (!confirmDelete) return;
-
-      socket.emit("delete-room", room);
-    }}
-  >
-    Delete Room
-  </button>
-)}
-
-{username === owner && (
-  <div
-    style={{
-      marginTop: "15px",
-      marginBottom: "15px",
-    }}
-  >
-  <button
-  onClick={() =>
-    setShowPollForm(!showPollForm)
-  }
+<div
+  style={{
+    display: "flex",
+    gap: "12px",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+    margin: "20px 0",
+  }}
 >
-  {showPollForm
-    ? "Hide Poll Form"
-    : "Create New Poll"}
-</button>
-    {showPollForm && (
-  <>
-    <h3>Create Poll</h3>
-
-    <input
-      type="text"
-      placeholder="Poll Question"
-      value={pollQuestion}
-      onChange={(e) =>
-        setPollQuestion(e.target.value)
-      }
-    />
-
-    <br />
-    <br />
-
-    <input
-      type="text"
-      placeholder="Option1,Option2,Option3"
-      value={pollOptions}
-      onChange={(e) =>
-        setPollOptions(e.target.value)
-      }
-    />
-
-    <br />
-    <br />
-
+  {username === owner && (
     <button
+      style={{
+        width: "160px",
+        padding: "12px",
+        borderRadius: "10px",
+        border: "none",
+        background: "#4f46e5",
+        color: "white",
+        fontWeight: "600",
+        cursor: "pointer",
+      }}
       onClick={() => {
-        console.log("CREATING POLL", {
-  room,
-  question: pollQuestion,
-  options: pollOptions
-    .split(",")
-    .map((o) => o.trim()),
-});
-
-socket.emit("create-poll", {
-  room,
-  question: pollQuestion,
-  options: pollOptions
-    .split(",")
-    .map((o) => o.trim()),
-});
-
-        setPollQuestion("");
-setPollOptions("");
-setShowPollForm(false);
+        socket.emit("clear-chat", room);
       }}
     >
-      Create Poll
+      🗑️ Clear Chat
     </button>
-      </>
-)}
-  </div>
-)}
+  )}
+
+  {username === owner && (
+    <button
+      style={{
+        width: "160px",
+        padding: "12px",
+        borderRadius: "10px",
+        border: "none",
+        background: "#dc2626",
+        color: "white",
+        fontWeight: "600",
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        const confirmDelete = window.confirm(
+          "Delete this room permanently?"
+        );
+
+        if (!confirmDelete) return;
+
+        socket.emit("delete-room", room);
+      }}
+    >
+      🗑️ Delete Room
+    </button>
+  )}
+
+  {username === owner && (
+    <div>
+      <button
+        style={{
+          width: "160px",
+          padding: "12px",
+          borderRadius: "10px",
+          border: "none",
+          background: "#10b981",
+          color: "white",
+          fontWeight: "600",
+          cursor: "pointer",
+        }}
+        onClick={() => setShowPollForm(!showPollForm)}
+      >
+        {showPollForm
+          ? "❌ Hide Poll"
+          : "📊 Create Poll"}
+      </button>
+
+      {showPollForm && (
+        <div
+          style={{
+            marginTop: "15px",
+            padding: "15px",
+            border: "1px solid #ddd",
+            borderRadius: "10px",
+            background: darkMode ? "#1f2937" : "#f9fafb",
+          }}
+        >
+          <h3>Create Poll</h3>
+
+          <input
+            type="text"
+            placeholder="Poll Question"
+            value={pollQuestion}
+            onChange={(e) =>
+              setPollQuestion(e.target.value)
+            }
+          />
+
+          <br />
+          <br />
+
+          <input
+            type="text"
+            placeholder="Option1,Option2,Option3"
+            value={pollOptions}
+            onChange={(e) =>
+              setPollOptions(e.target.value)
+            }
+          />
+
+          <br />
+          <br />
+
+          <button
+            style={{
+              padding: "10px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: "#4f46e5",
+              color: "white",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              socket.emit("create-poll", {
+                room,
+                question: pollQuestion,
+                options: pollOptions
+                  .split(",")
+                  .map((o) => o.trim()),
+              });
+
+              setPollQuestion("");
+              setPollOptions("");
+              setShowPollForm(false);
+
+              toast.success("Poll created!");
+            }}
+          >
+            ✅ Create Poll
+          </button>
+        </div>
+      )}
+    </div>
+  )}
+</div>
 <div
   style={{
   display: "flex",
