@@ -260,7 +260,7 @@ const sendMessage = () => {
   style={{
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-between",
+  justifyContent: "center",
   flexWrap: "wrap",
   gap: "15px",
   margin: "20px 0",
