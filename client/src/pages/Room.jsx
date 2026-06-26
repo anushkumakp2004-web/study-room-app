@@ -456,50 +456,85 @@ setShowPollForm(false);
   {darkMode ? "☀️ Light" : "🌙 Dark"}
 </button>
 </div>
-<p className="invite-link">
-  Invite Link: {window.location.origin}/room/{room}
-</p>
+<h4
+  style={{
+    marginBottom: "10px",
+    color: darkMode ? "#fff" : "#374151",
+  }}
+>
+  🔗 Invite Friends
+</h4>
 
 <button
+  style={{
+    padding: "12px 24px",
+    borderRadius: "10px",
+    border: "none",
+    background: "#4f46e5",
+    color: "white",
+    fontWeight: "600",
+    cursor: "pointer",
+    marginBottom: "20px",
+  }}
   onClick={() => {
     navigator.clipboard.writeText(
-  `${window.location.origin}/room/${room}`
-);
+      `${window.location.origin}/room/${room}`
+    );
 
     toast.success("Invite link copied!");
   }}
 >
-Copy Invite Link
+  📋 Copy Invite Link
 </button>
   
-  <input
-  type="text"
-  placeholder="Type a message"
-  value={message}
-  onChange={(e) => {
-  console.log("INPUT CHANGED");
-  console.log("ROOM:", room);
-  console.log("USERNAME:", username);
-
-  setMessage(e.target.value);
-
-  socket.emit("typing", {
-    room,
-    username,
-  });
-
-  console.log("TYPING EMITTED");
-}}
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
+  <div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginTop: "15px",
   }}
-/>
+>
+  <input
+    type="text"
+    placeholder="Type a message..."
+    value={message}
+    onChange={(e) => {
+      setMessage(e.target.value);
 
-  <button onClick={sendMessage}>
-    Send
+      socket.emit("typing", {
+        room,
+        username,
+      });
+    }}
+    onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    }}
+    style={{
+      flex: 1,
+      padding: "12px",
+      borderRadius: "10px",
+      border: "1px solid #ccc",
+      fontSize: "15px",
+    }}
+  />
+
+  <button
+    onClick={sendMessage}
+    style={{
+      padding: "12px 20px",
+      borderRadius: "10px",
+      border: "none",
+      background: "#4f46e5",
+      color: "white",
+      cursor: "pointer",
+      fontWeight: "600",
+    }}
+  >
+    📨 Send
   </button>
+</div>
 
   <div className="chat-layout">
 
