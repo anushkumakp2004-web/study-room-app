@@ -501,36 +501,45 @@ const sendMessage = () => {
   )}
 </div>
 
-<h4
+<div
   style={{
-    marginBottom: "10px",
-    color: darkMode ? "#fff" : "#374151",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "100%",
+    margin: "20px 0",
   }}
 >
-  🔗 Share Room
-</h4>
+  <h4
+    style={{
+      marginBottom: "10px",
+      color: darkMode ? "#fff" : "#374151",
+    }}
+  >
+    🔗 Share Room
+  </h4>
 
-<button
-  style={{
-    padding: "12px 24px",
-    borderRadius: "10px",
-    border: "none",
-    background: "#4f46e5",
-    color: "white",
-    fontWeight: "600",
-    cursor: "pointer",
-    marginBottom: "20px",
-  }}
-  onClick={() => {
-    navigator.clipboard.writeText(
-      `${window.location.origin}/room/${room}`
-    );
+  <button
+    style={{
+      padding: "12px 24px",
+      borderRadius: "10px",
+      border: "none",
+      background: "#4f46e5",
+      color: "white",
+      fontWeight: "600",
+      cursor: "pointer",
+    }}
+    onClick={() => {
+      navigator.clipboard.writeText(
+        `${window.location.origin}/room/${room}`
+      );
 
-    toast.success("Invite link copied!");
-  }}
->
-  📋 Copy Invite Link
-</button>
+      toast.success("Invite link copied!");
+    }}
+  >
+    📋 Copy Invite Link
+  </button>
+</div>
   
   <div
   style={{
