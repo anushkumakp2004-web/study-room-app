@@ -256,6 +256,11 @@ const sendMessage = () => {
     {room}
   </span>
 </h1>
+<h2>📚 Room {room}</h2>
+
+<h4>
+  👥 {users.length} {users.length === 1 ? "User" : "Users"} Online
+</h4>
 <div
   style={{
   display: "flex",
@@ -352,11 +357,6 @@ const sendMessage = () => {
       ) : (
       <>
       
-<h2>📚 Room {room}</h2>
-
-<p>
-  👥 {users.length} Users Online
-</p>
 <div
   style={{
     display: "flex",
