@@ -1,3 +1,4 @@
+import EmojiPicker from "emoji-picker-react";
 import toast from "react-hot-toast";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
@@ -20,6 +21,7 @@ const [username, setUsername] = useState(
   const [error, setError] = useState("");
   const [notes, setNotes] = useState("");
   const [message, setMessage] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [typingUser, setTypingUser] = useState("");
@@ -548,6 +550,21 @@ const sendMessage = () => {
     marginTop: "15px",
   }}
 >
+  <button
+  onClick={() =>
+    setShowEmojiPicker(!showEmojiPicker)
+  }
+  style={{
+    padding: "10px 14px",
+    borderRadius: "10px",
+    border: "1px solid #ccc",
+    cursor: "pointer",
+    fontSize: "20px",
+    background: "white",
+  }}
+>
+  😊
+</button>
   <input
     type="text"
     placeholder="Type a message..."
@@ -589,6 +606,21 @@ const sendMessage = () => {
     📨 Send
   </button>
 </div>
+{showEmojiPicker && (
+  <div
+    style={{
+      marginTop: "10px",
+    }}
+  >
+    <EmojiPicker
+      onEmojiClick={(emojiData) => {
+        setMessage(
+          (prev) => prev + emojiData.emoji
+        );
+      }}
+    />
+  </div>
+)}
 
   <div className="chat-layout">
 

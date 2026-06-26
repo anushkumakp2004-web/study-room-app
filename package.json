@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "emoji-picker-react": "^4.19.1",
     "react-sketch-canvas": "^8.0.0"
   }
 }
