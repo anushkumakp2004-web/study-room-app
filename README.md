@@ -84,13 +84,25 @@ npm start
 
 ## 📸 Screenshots
 
-Add screenshots here:
+### Home Page
 
-* Home Page
-* Chat & Shared Notes
-* Live Poll
-* Whiteboard
-* Dark Mode
+![Home](screenshots/home.png)
+
+### Chat Room
+
+![Chat Room](screenshots/chat-room.png)
+
+### Live Poll
+
+![Poll](screenshots/poll.png)
+
+### Whiteboard
+
+![Whiteboard](screenshots/whiteboard.png)
+
+### Dark Mode
+
+![Dark Mode](screenshots/dark-mode.png)
 
 ---
 
