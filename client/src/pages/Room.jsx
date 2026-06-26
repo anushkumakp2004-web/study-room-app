@@ -441,7 +441,7 @@ const sendMessage = () => {
   justifyContent: "space-between",
   flexWrap: "wrap",
   gap: "15px",
-  marginBottom: "20px",
+  margin: "20px 0",
 }}
 >
 <div
