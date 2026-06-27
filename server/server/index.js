@@ -37,6 +37,7 @@ const io = new Server(server, {
   "https://study-room-app-eight.vercel.app",
   "https://study-room-dsqgvwxby-anushbuilds.vercel.app",
   "https://study-room-9lgg9eb7i-anushbuilds.vercel.app",
+  "https://study-room-kd6bxf94m-anushbuilds.vercel.app",
 ],
     methods: ["GET", "POST"],
     credentials: true,
