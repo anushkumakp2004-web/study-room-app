@@ -22,6 +22,7 @@ app.use(
   "https://study-room-app-eight.vercel.app",
   "https://study-room-dsqgvwxby-anushbuilds.vercel.app",
   "https://study-room-9lgg9eb7i-anushbuilds.vercel.app",
+  "https://study-room-kd6bxf94m-anushbuilds.vercel.app",
 ],
     credentials: true,
   })
